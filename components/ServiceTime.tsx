@@ -1,12 +1,8 @@
 import dynamic from "next/dynamic";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { ReservationData } from "../pages";
-import { ServiceTypes } from "./ServiceItemsList";
+import { ServiceTimeProps, ServiceTypes } from "../types";
 
-export interface ServiceTimeProps {
-	formState: ReservationData;
-	setFormState: Dispatch<SetStateAction<ReservationData>>;
-}
+
 
 function ServiceTime({ formState, setFormState }: ServiceTimeProps) {
 	const Calendar = dynamic(() => import("react-calendar"), {

@@ -1,16 +1,7 @@
 import { useId } from "react";
+import { FormCustomInputProps } from "../types";
 
-export interface FormCustomInputProps {
-	name: string;
-	label?: string;
-	type?: string;
-	placeholder?: string;
-	labelClasses?: string | null;
-	inputClasses?: string | null;
-	value: string;
-	isTextArea?: boolean;
-	onChange: any;
-}
+
 
 function FormCustomInput({
 	name,

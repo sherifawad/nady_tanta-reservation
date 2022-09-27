@@ -1,19 +1,5 @@
-import { SERVFAIL } from "dns";
-import { Dispatch, SetStateAction } from "react";
-import { ReservationData } from "../pages";
+import { ServiceItemsListProps, ServiceTypes } from "../types";
 import ServiceItem from "./ServiceItem";
-
-export interface ServiceItemsListProps {
-	formState: ReservationData;
-	setFormState: Dispatch<SetStateAction<ReservationData>>;
-}
-
-export enum ServiceTypes {
-	CEIL = "حجز الرووف",
-	CONFERENCE = "حجز قاعة المؤتمرات",
-	BIRTHDAY = "حجز عيد ميلاد",
-	MARRIAGE = "حجز عقد قرآن",
-}
 
 function ServiceItemsList({ formState, setFormState }: ServiceItemsListProps) {
 	const cardClickHandler = (serviceValue: string): void => {

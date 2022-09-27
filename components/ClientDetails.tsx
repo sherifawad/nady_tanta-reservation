@@ -1,11 +1,6 @@
 import dynamic from "next/dynamic";
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
-import { ReservationData } from "../pages";
-
-export interface ClientDetailsProps {
-	formState: ReservationData;
-	setFormState: Dispatch<SetStateAction<ReservationData>>;
-}
+import { ChangeEvent } from "react";
+import { ClientDetailsProps } from "../types";
 
 function ClientDetails({ formState, setFormState }: ClientDetailsProps) {
 	const FormCustomInput = dynamic(() => import("./FormCustomInput"), {

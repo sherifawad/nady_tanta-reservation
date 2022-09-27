@@ -1,12 +1,7 @@
 import { useEffect, useId, useState } from "react";
+import { ServiceItemProps } from "../types";
 
-export interface ServiceItemProps {
-	title: string;
-	subTitle: string;
-	ServiceValue: string;
-	selectedService: string;
-	cardClickHandler: any;
-}
+
 
 function ServiceItem({ title, subTitle, ServiceValue, selectedService, cardClickHandler }: ServiceItemProps) {
 	const id = useId();
