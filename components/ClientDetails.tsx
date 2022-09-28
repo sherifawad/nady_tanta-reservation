@@ -1,11 +1,10 @@
-import dynamic from "next/dynamic";
-import { ChangeEvent } from "react";
 import { ClientDetailsProps } from "../types";
+import FormCustomInput from "./FormCustomInput";
 
-function ClientDetails({ formState, setFormState }: ClientDetailsProps) {
-	const FormCustomInput = dynamic(() => import("./FormCustomInput"), {
-		ssr: false,
-	});
+function ClientDetails({ formState, handleDetailsChange }: ClientDetailsProps) {
+	// const FormCustomInput = dynamic(() => import("./FormCustomInput"), {
+	// 	ssr: false,
+	// });
 	return (
 		<div className="my-4">
 			<div className="flex flex-col gap-4">
@@ -15,145 +14,92 @@ function ClientDetails({ formState, setFormState }: ClientDetailsProps) {
 						<FormCustomInput
 							name={"name"}
 							label={"الاسم"}
+							id={"name"}
 							placeholder={"شريف"}
 							value={formState?.clientDetails?.name}
-							onChange={(e: ChangeEvent<HTMLInputElement>) =>
-								setFormState((prev) => {
-									return {
-										...prev,
-										error: "",
-										clientDetails: { ...prev.clientDetails, name: e.target.value },
-									};
-								})
-							}
+							onChange={handleDetailsChange}
 						/>
+
 						<div className="grid grid-cols-[auto_minmax(100px,_1fr)] px-4 py-2  gap-2 bg-[#F5F6F7] shadow-lg rounded-lg">
 							<label className="block text-sm font-medium text-[#A3ACB5]">رقم العضوية</label>
 							<div className="grid grid-cols-2">
 								<input
 									className="text-black bg-transparent outline-none"
 									type="number"
-									name="code"
+									name="memberShipCode"
+									id="memberShipCode"
 									placeholder="22"
 									value={formState?.clientDetails?.memberShipCode}
-									onChange={(e: ChangeEvent<HTMLInputElement>) =>
-										setFormState((prev) => {
-											return {
-												...prev,
-												error: "",
-												clientDetails: {
-													...prev.clientDetails,
-													memberShipCode: e.target.value,
-												},
-											};
-										})
-									}
+									onChange={handleDetailsChange}
 								/>
 								<input
 									className="text-black bg-transparent outline-none"
 									type="number"
-									name="code"
+									name="memberShipYear"
+									id="memberShipYear"
 									placeholder="1976"
 									value={formState?.clientDetails?.memberShipYear}
-									onChange={(e: ChangeEvent<HTMLInputElement>) =>
-										setFormState((prev) => {
-											return {
-												...prev,
-												error: "",
-												clientDetails: {
-													...prev.clientDetails,
-													memberShipYear: e.target.value,
-												},
-											};
-										})
-									}
+									onChange={handleDetailsChange}
 								/>
 							</div>
 						</div>
+
 						<FormCustomInput
 							name={"phone"}
 							label={"التليفون"}
-							placeholder={"01xxxxxxxxxx"}
+							id={"phone"}
 							type={"tel"}
+							placeholder={"01xxxxxxxxxx"}
 							value={formState?.clientDetails?.phone}
-							onChange={(e: ChangeEvent<HTMLInputElement>) =>
-								setFormState((prev) => {
-									return {
-										...prev,
-										error: "",
-										clientDetails: { ...prev.clientDetails, phone: e.target.value },
-									};
-								})
-							}
+							onChange={handleDetailsChange}
 						/>
-						<FormCustomInput
-							name={"email"}
-							label={"الايميل"}
-							placeholder={"example@email.com"}
-							type={"email"}
-							value={formState?.clientDetails?.email}
-							onChange={(e: ChangeEvent<HTMLInputElement>) =>
-								setFormState((prev) => {
-									return {
-										...prev,
-										error: "",
-										clientDetails: { ...prev.clientDetails, email: e.target.value },
-									};
-								})
-							}
-						/>
+
+						{/* 
+						<div className="grid grid-cols-[80px_1fr] px-4 py-2  bg-[#F5F6F7] shadow-lg rounded-lg">
+							<label className="block text-sm font-medium text-[#A3ACB5]" htmlFor="email">
+								الايميل
+							</label>
+
+							<input
+								className="text-black text-sm bg-transparent outline-none w-full"
+								type="email"
+								id="email"
+								name="email"
+								placeholder="example@email.com"
+								value={formState?.clientDetails?.email}
+								onChange={handleDetailsChange}
+							/>
+						</div> */}
+
 						<FormCustomInput
 							name={"reciteNumber"}
 							label={"رقم الايصال"}
+							id={"reciteNumber"}
 							type={"number"}
-							placeholder={"2700"}
+							placeholder={"0011"}
 							value={formState?.clientDetails?.reciteNumber}
-							onChange={(e: ChangeEvent<HTMLInputElement>) =>
-								setFormState((prev) => {
-									return {
-										...prev,
-										error: "",
-										clientDetails: {
-											...prev.clientDetails,
-											reciteNumber: e.target.value,
-										},
-									};
-								})
-							}
+							onChange={handleDetailsChange}
 						/>
+
 						<FormCustomInput
 							name={"reciteDate"}
 							label={"تاريخ الايصال"}
-							placeholder={"01xxxxxxxxxx"}
+							id={"reciteDate"}
 							type={"date"}
+							placeholder={"01/01/2001"}
 							value={formState?.clientDetails?.reciteDate}
-							onChange={(e: ChangeEvent<HTMLInputElement>) =>
-								setFormState((prev) => {
-									return {
-										...prev,
-										error: "",
-										clientDetails: { ...prev.clientDetails, reciteDate: e.target.value },
-									};
-								})
-							}
+							onChange={handleDetailsChange}
 						/>
 					</div>
 
 					<div className="col-start-2 col-end-3 row-start-1 row-end-2">
 						<FormCustomInput
-							isTextArea
 							name={"note"}
-							value={String(formState?.clientDetails?.note)}
-							onChange={(e: ChangeEvent<HTMLInputElement>) =>
-								setFormState((prev) => {
-									return {
-										...prev,
-										error: "",
-										clientDetails: { ...prev.clientDetails, note: e.target.value },
-									};
-								})
-							}
+							id={"note"}
+							isTextArea
 							placeholder={"ملاحظات (اختياري)"}
+							value={String(formState?.clientDetails?.note)}
+							onChange={handleDetailsChange}
 						/>
 					</div>
 				</div>

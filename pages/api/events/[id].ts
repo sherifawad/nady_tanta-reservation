@@ -8,10 +8,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 	if (req.method === "DELETE") {
 		const response = await supabase.from("reservation").delete().match({ id: eventId });
 		res.json(response);
-	} else if (req.method === "POST") {
-		const response = await supabase.from("reservation").insert(eventBody);
-		res.json(response);
-	} else if (req.method === "UPDATE") {
+	} else if (req.method === "PUT") {
+		console.log("🚀 ~ file: [id].ts ~ line 13 ~ handler ~ eventBody", eventBody)
 		const response = await supabase.from("reservation").update(eventBody).match({ id: eventId });
 		res.json(response);
 	} else if (req.method === "GET") {

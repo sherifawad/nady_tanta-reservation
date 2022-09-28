@@ -1,8 +1,6 @@
 import { useId } from "react";
 import { FormCustomInputProps } from "../types";
 
-
-
 function FormCustomInput({
 	name,
 	label,
@@ -13,8 +11,10 @@ function FormCustomInput({
 	value,
 	isTextArea = false,
 	onChange,
+	id,
 }: FormCustomInputProps) {
-	const id = useId();
+	const generatedId = useId();
+	id = id ? id : generatedId;
 	return (
 		<div className="grid grid-cols-[80px_auto] px-4 py-2  bg-[#F5F6F7] shadow-lg rounded-lg">
 			{label ? (
@@ -41,9 +41,7 @@ function FormCustomInput({
 			) : (
 				<input
 					className={`${
-						inputClasses
-							? inputClasses
-							: "text-left text-black text-sm bg-transparent outline-none w-full"
+						inputClasses ? inputClasses : "text-black text-sm bg-transparent outline-none w-full"
 					}`}
 					type={type}
 					id={id}

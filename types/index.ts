@@ -21,7 +21,7 @@ export interface ReservationData {
 
 export interface ClientDetailsProps {
 	formState: ReservationData;
-	setFormState: Dispatch<SetStateAction<ReservationData>>;
+	handleDetailsChange: any;
 }
 
 export interface FormCustomInputProps {
@@ -33,6 +33,7 @@ export interface FormCustomInputProps {
 	inputClasses?: string | null;
 	value: string;
 	isTextArea?: boolean;
+	id?: string;
 	onChange: any;
 }
 
