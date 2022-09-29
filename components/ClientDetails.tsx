@@ -2,9 +2,6 @@ import { ClientDetailsProps } from "../types";
 import FormCustomInput from "./FormCustomInput";
 
 function ClientDetails({ formState, handleDetailsChange }: ClientDetailsProps) {
-	// const FormCustomInput = dynamic(() => import("./FormCustomInput"), {
-	// 	ssr: false,
-	// });
 	return (
 		<div className="my-4">
 			<div className="flex flex-col gap-4">
@@ -16,7 +13,7 @@ function ClientDetails({ formState, handleDetailsChange }: ClientDetailsProps) {
 							label={"الاسم"}
 							id={"name"}
 							placeholder={"شريف"}
-							value={formState?.clientDetails?.name}
+							value={formState?.clientDetails?.name ? formState?.clientDetails?.name : ""}
 							onChange={handleDetailsChange}
 						/>
 
@@ -29,7 +26,11 @@ function ClientDetails({ formState, handleDetailsChange }: ClientDetailsProps) {
 									name="memberShipCode"
 									id="memberShipCode"
 									placeholder="22"
-									value={formState?.clientDetails?.memberShipCode}
+									value={
+										formState?.clientDetails?.memberShipCode
+											? formState?.clientDetails?.memberShipCode
+											: ""
+									}
 									onChange={handleDetailsChange}
 								/>
 								<input
@@ -38,7 +39,11 @@ function ClientDetails({ formState, handleDetailsChange }: ClientDetailsProps) {
 									name="memberShipYear"
 									id="memberShipYear"
 									placeholder="1976"
-									value={formState?.clientDetails?.memberShipYear}
+									value={
+										formState?.clientDetails?.memberShipYear
+											? formState?.clientDetails?.memberShipYear
+											: ""
+									}
 									onChange={handleDetailsChange}
 								/>
 							</div>
@@ -50,26 +55,18 @@ function ClientDetails({ formState, handleDetailsChange }: ClientDetailsProps) {
 							id={"phone"}
 							type={"tel"}
 							placeholder={"01xxxxxxxxxx"}
-							value={formState?.clientDetails?.phone}
+							value={formState?.clientDetails?.phone ? formState?.clientDetails?.phone : ""}
 							onChange={handleDetailsChange}
 						/>
 
-						{/* 
-						<div className="grid grid-cols-[80px_1fr] px-4 py-2  bg-[#F5F6F7] shadow-lg rounded-lg">
-							<label className="block text-sm font-medium text-[#A3ACB5]" htmlFor="email">
-								الايميل
-							</label>
-
-							<input
-								className="text-black text-sm bg-transparent outline-none w-full"
-								type="email"
-								id="email"
-								name="email"
-								placeholder="example@email.com"
-								value={formState?.clientDetails?.email}
-								onChange={handleDetailsChange}
-							/>
-						</div> */}
+						<FormCustomInput
+							name={"email"}
+							label={"الايميل"}
+							id={"email"}
+							placeholder={"example@email.com"}
+							value={formState?.clientDetails?.email ? formState?.clientDetails?.email : ""}
+							onChange={handleDetailsChange}
+						/>
 
 						<FormCustomInput
 							name={"reciteNumber"}
@@ -77,7 +74,11 @@ function ClientDetails({ formState, handleDetailsChange }: ClientDetailsProps) {
 							id={"reciteNumber"}
 							type={"number"}
 							placeholder={"0011"}
-							value={formState?.clientDetails?.reciteNumber}
+							value={
+								formState?.clientDetails?.reciteNumber
+									? formState?.clientDetails?.reciteNumber
+									: ""
+							}
 							onChange={handleDetailsChange}
 						/>
 
@@ -87,7 +88,11 @@ function ClientDetails({ formState, handleDetailsChange }: ClientDetailsProps) {
 							id={"reciteDate"}
 							type={"date"}
 							placeholder={"01/01/2001"}
-							value={formState?.clientDetails?.reciteDate}
+							value={
+								formState?.clientDetails?.reciteDate
+									? formState?.clientDetails?.reciteDate
+									: ""
+							}
 							onChange={handleDetailsChange}
 						/>
 					</div>
@@ -98,7 +103,9 @@ function ClientDetails({ formState, handleDetailsChange }: ClientDetailsProps) {
 							id={"note"}
 							isTextArea
 							placeholder={"ملاحظات (اختياري)"}
-							value={String(formState?.clientDetails?.note)}
+							value={
+								formState?.clientDetails?.note ? String(formState?.clientDetails?.note) : ""
+							}
 							onChange={handleDetailsChange}
 						/>
 					</div>

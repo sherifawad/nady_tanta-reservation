@@ -8,16 +8,16 @@ import ClientDetails from "../components/ClientDetails";
 import ServiceItemsList from "../components/ServiceItemsList";
 import ServiceTime from "../components/ServiceTime";
 import Spinner from "../components/Spinner";
-import { ReservationData } from "../types";
+import { EventPageProps, ReservationData } from "../types";
 
-const EventPage = ({ event }: any | undefined) => {
+const EventPage = ({ event }: EventPageProps) => {
 	const router = useRouter();
 
 	const [loading, setLoading] = useState<Boolean>(false);
 
 	const [formState, setFormState] = useState<ReservationData>({
 		clientDetails: {
-			id: "",
+			id: 0,
 			email: "",
 			name: "",
 			phone: "",
@@ -28,10 +28,10 @@ const EventPage = ({ event }: any | undefined) => {
 			note: "",
 		},
 		serviceType: "",
-		serviceDate: "",
+		serviceDate: null,
 		serviceTime: "",
 		status: 0,
-		error: "",
+		error: null,
 	});
 
 	useEffect(() => {
@@ -53,10 +53,10 @@ const EventPage = ({ event }: any | undefined) => {
 		} = event;
 
 		setFormState({
-			error: "",
+			error: null,
 			status: event_status,
 			serviceType: service_type,
-			serviceDate: service_date,
+			serviceDate: service_date ? new Date(service_date) : service_date,
 			serviceTime: service_time,
 			clientDetails: {
 				memberShipCode: member_ship_code,
@@ -69,7 +69,9 @@ const EventPage = ({ event }: any | undefined) => {
 	}, [event]);
 
 	const onSubmit = async () => {
-		if (formState.error.length > 2) return;
+		if (formState?.error) return;
+		// alert(JSON.stringify(formState, null, 2));
+		// return;
 
 		setLoading(true);
 		try {
@@ -82,7 +84,7 @@ const EventPage = ({ event }: any | undefined) => {
 					data: {
 						event_status: formState.status,
 						service_type: formState.serviceType,
-						service_date: new Date(formState.serviceDate),
+						service_date: formState.serviceDate,
 						service_time: formState.serviceTime,
 						member_ship_code: formState.clientDetails.memberShipCode,
 						member_ship_year: formState.clientDetails.memberShipYear,

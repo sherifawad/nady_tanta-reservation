@@ -8,10 +8,12 @@ function FormCustomInput({
 	placeholder = "",
 	labelClasses = null,
 	inputClasses = null,
-	value,
+	value = "",
 	isTextArea = false,
 	onChange,
 	id,
+	pattern = ".*",
+	required = false,
 }: FormCustomInputProps) {
 	const generatedId = useId();
 	id = id ? id : generatedId;
@@ -34,9 +36,10 @@ function FormCustomInput({
 					id={id}
 					name={name}
 					placeholder={placeholder}
-					value={value || ""}
+					value={value}
 					onChange={onChange}
 					className="text-black text-sm bg-transparent outline-none flex-1 col-span-2"
+					required
 				/>
 			) : (
 				<input
@@ -47,8 +50,10 @@ function FormCustomInput({
 					id={id}
 					name={name}
 					placeholder={placeholder}
-					value={value || ""}
 					onChange={onChange}
+					required={required}
+					pattern={pattern}
+					value={value}
 				/>
 			)}
 		</div>

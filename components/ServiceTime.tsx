@@ -1,15 +1,12 @@
 import dynamic from "next/dynamic";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
 import { ServiceTimeProps, ServiceTypes } from "../types";
-
-
 
 function ServiceTime({ formState, setFormState }: ServiceTimeProps) {
 	const Calendar = dynamic(() => import("react-calendar"), {
 		ssr: false,
 	});
 
-	const [value, onChange] = useState(new Date());
 	const hours = [4, 5, 6, 7, 8, 9, 10, 11, 12];
 	const PrayerDate = ["بعد العصر", " بعد المغرب", " بعد العشاء"];
 
@@ -29,11 +26,6 @@ function ServiceTime({ formState, setFormState }: ServiceTimeProps) {
 		});
 	};
 
-	useEffect(() => {
-		setFormState((prev) => {
-			return { ...prev, serviceDate: value.toLocaleDateString() };
-		});
-	}, [setFormState, value]);
 
 	return (
 		<div className="pb-4">
@@ -41,8 +33,12 @@ function ServiceTime({ formState, setFormState }: ServiceTimeProps) {
 				<h2 className="my-2 text-2xl font-bold text-[#1499B4] ">اختر التوقيت</h2>
 				<div className="my-2 grid sm:grid-cols-2 sm:grid-rows-1 grid-rows-2 shadow-xl bg-white rounded-lg">
 					<Calendar
-						onChange={onChange}
-						value={value}
+						onChange={(value: Date) =>
+							setFormState((prev) => {
+								return { ...prev, serviceDate: value };
+							})
+						}
+						value={formState?.serviceDate ? formState.serviceDate : new Date()}
 						className="shadow-xl rounded-xl sm:mx-0 py-4"
 					/>
 					<div className={`grid grid-cols-2 gap-4 m-auto ${showPrayers ? "" : "hidden"}`}>

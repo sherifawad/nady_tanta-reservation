@@ -2,21 +2,43 @@ import { Dispatch, SetStateAction } from "react";
 
 export interface ReservationData {
 	clientDetails: {
-		id: string;
-		email: string;
-		name: string;
-		phone: string;
-		memberShipCode: string;
-		memberShipYear: string;
-		reciteNumber: string;
-		reciteDate: string;
-		note: string;
+		id?: Number;
+		email: string | null;
+		name: string | null;
+		phone: string | null;
+		memberShipCode: string | null;
+		memberShipYear: string | null;
+		reciteNumber: string | null;
+		reciteDate: string | null;
+		note: string | null;
 	};
-	serviceType: string;
-	serviceDate: string;
-	serviceTime: string;
+	serviceType: string | null;
+	serviceDate: Date | null;
+	serviceTime: string | null;
 	status: EventStatus;
-	error: string;
+	error: string | null;
+}
+
+export interface dataBaseData {
+	id?: Number;
+	email: string | null;
+	name: string | null;
+	phone: string | null;
+	note: string | null;
+	service_type: string | null;
+	service_date: Date | null;
+	service_time: string | null;
+	event_status: EventStatus;
+	recite_number: string | null;
+	recite_date: string | null;
+	member_ship_code: string | null;
+	member_ship_year: string | null;
+	created_at?: Date;
+	created_by: string | null;
+}
+
+export interface EventPageProps {
+	event?: dataBaseData;
 }
 
 export interface ClientDetailsProps {
@@ -29,10 +51,12 @@ export interface FormCustomInputProps {
 	label?: string;
 	type?: string;
 	placeholder?: string;
+	pattern?: string;
 	labelClasses?: string | null;
 	inputClasses?: string | null;
-	value: string;
+	value?: string;
 	isTextArea?: boolean;
+	required?: boolean;
 	id?: string;
 	onChange: any;
 }
