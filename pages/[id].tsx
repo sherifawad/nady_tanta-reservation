@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import axios, { AxiosResponse } from "axios";
+import { parse } from "date-fns";
 import type { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -8,7 +9,7 @@ import ClientDetails from "../components/ClientDetails";
 import ServiceItemsList from "../components/ServiceItemsList";
 import ServiceTime from "../components/ServiceTime";
 import Spinner from "../components/Spinner";
-import { EventPageProps, ReservationData } from "../types";
+import { EventPageProps, EventStatus, ReservationData, ServiceTypes } from "../types";
 
 const EventPage = ({ event }: EventPageProps) => {
 	const router = useRouter();
@@ -18,18 +19,18 @@ const EventPage = ({ event }: EventPageProps) => {
 	const [formState, setFormState] = useState<ReservationData>({
 		clientDetails: {
 			id: 0,
-			email: "",
-			name: "",
-			phone: "",
-			memberShipCode: "",
-			memberShipYear: "",
-			reciteNumber: "",
-			reciteDate: "",
-			note: "",
+			email: null,
+			name: null,
+			phone: null,
+			memberShipCode: null,
+			memberShipYear: null,
+			reciteNumber: null,
+			reciteDate: null,
+			note: null,
 		},
-		serviceType: "",
+		serviceType: null,
 		serviceDate: null,
-		serviceTime: "",
+		serviceTime: null,
 		status: 0,
 		error: null,
 	});
@@ -54,9 +55,9 @@ const EventPage = ({ event }: EventPageProps) => {
 
 		setFormState({
 			error: null,
-			status: event_status,
-			serviceType: service_type,
-			serviceDate: service_date ? new Date(service_date) : service_date,
+			status: event_status as EventStatus,
+			serviceType: service_type ? (service_type as ServiceTypes) : null,
+			serviceDate: service_date,
 			serviceTime: service_time,
 			clientDetails: {
 				memberShipCode: member_ship_code,
@@ -70,6 +71,17 @@ const EventPage = ({ event }: EventPageProps) => {
 
 	const onSubmit = async () => {
 		if (formState?.error) return;
+
+		if (
+			!formState.serviceDate ||
+			!formState.serviceTime ||
+			!formState.serviceType ||
+			!formState.clientDetails.name ||
+			!formState.clientDetails.phone
+		) {
+			alert("املأ البيانات");
+			return;
+		}
 		// alert(JSON.stringify(formState, null, 2));
 		// return;
 

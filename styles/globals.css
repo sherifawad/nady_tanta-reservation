@@ -60,7 +60,7 @@ body {
     margin: 0;
     border: 0;
     outline: none;
-    border-radius: 30%;
+    //border-radius: 40%;
     //height: var(--calenderHeight);
   }
   .react-calendar button:enabled:hover {
@@ -153,3 +153,5 @@ body {
   .react-calendar--selectRange .react-calendar__tile--hover {
     background-color: #e6e6e6;
   }
+
+

@@ -1,3 +1,4 @@
+import { format, parse } from "date-fns";
 import dynamic from "next/dynamic";
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
 import { ServiceTimeProps, ServiceTypes } from "../types";
@@ -26,7 +27,6 @@ function ServiceTime({ formState, setFormState }: ServiceTimeProps) {
 		});
 	};
 
-
 	return (
 		<div className="pb-4">
 			<div className="flex flex-col">
@@ -35,10 +35,14 @@ function ServiceTime({ formState, setFormState }: ServiceTimeProps) {
 					<Calendar
 						onChange={(value: Date) =>
 							setFormState((prev) => {
-								return { ...prev, serviceDate: value };
+								return { ...prev, serviceDate: format(value, "yyyy-MM-dd") };
 							})
 						}
-						value={formState?.serviceDate ? formState.serviceDate : new Date()}
+						value={
+							formState?.serviceDate
+								? parse(formState.serviceDate, "yyyy-MM-dd", new Date())
+								: new Date()
+						}
 						className="shadow-xl rounded-xl sm:mx-0 py-4"
 					/>
 					<div className={`grid grid-cols-2 gap-4 m-auto ${showPrayers ? "" : "hidden"}`}>

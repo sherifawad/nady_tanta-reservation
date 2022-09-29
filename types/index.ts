@@ -12,8 +12,8 @@ export interface ReservationData {
 		reciteDate: string | null;
 		note: string | null;
 	};
-	serviceType: string | null;
-	serviceDate: Date | null;
+	serviceType: ServiceTypes | null;
+	serviceDate: string | null;
 	serviceTime: string | null;
 	status: EventStatus;
 	error: string | null;
@@ -26,14 +26,14 @@ export interface dataBaseData {
 	phone: string | null;
 	note: string | null;
 	service_type: string | null;
-	service_date: Date | null;
+	service_date: string | null;
 	service_time: string | null;
-	event_status: EventStatus;
+	event_status: Number;
 	recite_number: string | null;
 	recite_date: string | null;
 	member_ship_code: string | null;
 	member_ship_year: string | null;
-	created_at?: Date;
+	created_at?: string;
 	created_by: string | null;
 }
 
@@ -70,7 +70,7 @@ export interface ServiceItemProps {
 }
 
 export interface HomePageProps {
-	eventsList: ReservationData[] | [];
+	eventsList: dataBaseData[] | [];
 }
 
 export interface ServiceItemsListProps {

@@ -6,7 +6,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 	if (req.method === "GET") {
 		const response = await supabase
 			.from("reservation")
-			.select("service_type, service_date, service_time, event_status");
+			.select("id, service_type, service_date, service_time, event_status");
 		res.json(response);
 	} else if (req.method === "POST") {
 		const eventBody = req.body;
