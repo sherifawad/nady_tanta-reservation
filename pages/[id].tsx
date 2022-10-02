@@ -11,6 +11,7 @@ import ServiceItemsList from "../components/ServiceItemsList";
 import ServiceTime from "../components/ServiceTime";
 import Spinner from "../components/Spinner";
 import { EventPageProps, EventStatus, ReservationData, ServiceTypes } from "../types";
+import { getURL } from "../utils/helpers";
 
 const EventPage = ({ event }: EventPageProps) => {
 	const router = useRouter();
@@ -93,7 +94,7 @@ const EventPage = ({ event }: EventPageProps) => {
 			if (formState?.clientDetails?.id) {
 				res = await axios({
 					method: "PUT",
-					url: `http://localhost:3000/api/events/${formState?.clientDetails?.id}`,
+					url: `${getURL()}/api/events/${formState?.clientDetails?.id}`,
 					data: {
 						event_status: formState.status,
 						service_type: formState.serviceType,
@@ -112,7 +113,7 @@ const EventPage = ({ event }: EventPageProps) => {
 			} else {
 				res = await axios({
 					method: "POST",
-					url: `http://localhost:3000/api/events/`,
+					url: `${getURL()}/api/events/`,
 					data: {
 						event_status: formState.status,
 						service_type: formState.serviceType,
@@ -203,7 +204,7 @@ export const getServerSideProps: GetServerSideProps = withPageAuth({
 				data: { data },
 			} = await axios({
 				method: "GET",
-				url: `http://localhost:3000/api/events/${id}`,
+				url: `${getURL()}/api/events/${id}`,
 				headers: req ? { cookie: req.headers.cookie ? req.headers.cookie : "" } : undefined,
 			});
 

@@ -8,12 +8,13 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 import { dataBaseData, HomePageProps, ServiceTypes } from "../types";
+import { getURL } from "../utils/helpers";
 
 export async function loadEvents() {
 	try {
 		const { data: { data } = {} } = await axios({
 			method: "GET",
-			url: "http://localhost:3000/api/events",
+			url: `${getURL()}/api/events`,
 		});
 
 		return data;
