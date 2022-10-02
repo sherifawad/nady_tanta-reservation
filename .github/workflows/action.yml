@@ -75,5 +75,3 @@ jobs:
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ghi
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
-        with:
-          path: ./out
