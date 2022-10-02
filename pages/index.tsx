@@ -1,3 +1,4 @@
+import { useUser } from "@supabase/supabase-auth-helpers/react";
 import axios from "axios";
 import { format, parse } from "date-fns";
 import { GetServerSideProps, GetStaticProps, NextPage } from "next";
@@ -5,23 +6,17 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { supabase } from "../lib/supabase";
 import { dataBaseData, HomePageProps, ServiceTypes } from "../types";
 
 const HomePage = ({ eventsList = [] }: HomePageProps) => {
 	const Calendar = dynamic(() => import("react-calendar"), {
 		ssr: false,
 	});
-	const [events, setEvents] = useState(eventsList);
 
-	// useEffect(() => {
-	// 	const result = eventsList.map((item: dataBaseData) => {
-	// 		if (item.service_date) {
-	// 			return { ...item, service_date: parse(item.service_date, "yyyy-MM-dd", new Date()) };
-	// 		}
-	// 		return item;
-	// 	});
-	// 	setEvents(eventsList);
-	// }, [eventsList]);
+	const [events, _] = useState(eventsList);
+
+	const { accessToken } = useUser();
 
 	const [value, onChange] = useState(new Date());
 
@@ -59,6 +54,7 @@ const HomePage = ({ eventsList = [] }: HomePageProps) => {
 				return "";
 		}
 	};
+
 	return (
 		<div>
 			<Head>
@@ -104,11 +100,13 @@ const HomePage = ({ eventsList = [] }: HomePageProps) => {
 							)
 					)}
 				</div>
-				<Link href={"/0"}>
-					<a className="flex shadow-xl justify-center items-center w-1/2 rounded-xl bg-yellow-500 p-4 text-white">
-						اضف حجز جديد
-					</a>
-				</Link>
+				{accessToken && (
+					<Link href={"/0"}>
+						<a className="flex shadow-xl justify-center items-center w-1/2 rounded-xl bg-yellow-500 p-4 text-white">
+							اضف حجز جديد
+						</a>
+					</Link>
+				)}
 				{/* <pre>{JSON.stringify(eventsList, null, 2)}</pre> */}
 			</div>
 		</div>

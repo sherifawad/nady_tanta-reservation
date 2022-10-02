@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { withPageAuth } from "@supabase/supabase-auth-helpers/nextjs";
 import axios, { AxiosResponse } from "axios";
 import { parse } from "date-fns";
 import type { GetServerSideProps } from "next";
@@ -186,63 +187,68 @@ const EventPage = ({ event }: EventPageProps) => {
 	);
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-	try {
-		if (!params || !params.id || params.id === "0") {
-			return {
-				props: {},
-			};
-		}
-		const { id } = params;
-
-		const {
-			data: { data },
-		} = await axios({
-			method: "GET",
-			url: `http://localhost:3000/api/events/${id}`,
-		});
-
-		return {
-			props: { event: data },
-		};
-	} catch (error) {
-		// check if the error was thrown from axios
-		if (axios.isAxiosError(error)) {
-			if (error.response) {
-				// The request was made and the server responded with a status code
-				// that falls out of the range of 2xx
-				console.log(
-					"🚀 ~ file: [id].tsx ~ line 90 ~ constgetStaticProps:GetStaticProps= ~ error.response",
-					error.response.data
-				);
-				console.log(
-					"🚀 ~ file: ind[id]ex.tsx ~ line 94 ~ constgetStaticProps:GetStaticProps= ~ error.response",
-					error.response.status
-				);
-				console.log(
-					"🚀 ~ file: [id].tsx ~ line 98 ~ constgetStaticProps:GetStaticProps= ~ error.response",
-					error.response.headers
-				);
-			} else if (error.request) {
-				// The request was made but no response was received
-				// `error.request` is an instance of XMLHttpRequest in the
-				// browser and an instance of
-				// http.ClientRequest in node.js
-				console.log(
-					"🚀 ~ file: [id].tsx ~ line 107 ~ constgetStaticProps:GetStaticProps= ~ error.request",
-					error.request
-				);
+export const getServerSideProps: GetServerSideProps = withPageAuth({
+	// authRequired: false,
+	redirectTo: "/auth",
+	async getServerSideProps({ req, params }) {
+		try {
+			if (!params || !params.id || params.id === "0") {
+				return {
+					props: {},
+				};
 			}
-			throw error;
-		}
-		// check if instance of error not throw string but => throw new Error("")
-		if (error instanceof Error) {
-			throw error;
-		}
+			const { id } = params;
 
-		// error is string
-		throw new Error(error as string);
-	}
-};
+			const {
+				data: { data },
+			} = await axios({
+				method: "GET",
+				url: `http://localhost:3000/api/events/${id}`,
+				headers: req ? { cookie: req.headers.cookie ? req.headers.cookie : "" } : undefined,
+			});
+
+			return {
+				props: { event: data },
+			};
+		} catch (error) {
+			// check if the error was thrown from axios
+			if (axios.isAxiosError(error)) {
+				if (error.response) {
+					// The request was made and the server responded with a status code
+					// that falls out of the range of 2xx
+					console.log(
+						"🚀 ~ file: [id].tsx ~ line 90 ~ constgetStaticProps:GetStaticProps= ~ error.response",
+						error.response.data
+					);
+					console.log(
+						"🚀 ~ file: ind[id]ex.tsx ~ line 94 ~ constgetStaticProps:GetStaticProps= ~ error.response",
+						error.response.status
+					);
+					console.log(
+						"🚀 ~ file: [id].tsx ~ line 98 ~ constgetStaticProps:GetStaticProps= ~ error.response",
+						error.response.headers
+					);
+				} else if (error.request) {
+					// The request was made but no response was received
+					// `error.request` is an instance of XMLHttpRequest in the
+					// browser and an instance of
+					// http.ClientRequest in node.js
+					console.log(
+						"🚀 ~ file: [id].tsx ~ line 107 ~ constgetStaticProps:GetStaticProps= ~ error.request",
+						error.request
+					);
+				}
+				throw error;
+			}
+			// check if instance of error not throw string but => throw new Error("")
+			if (error instanceof Error) {
+				throw error;
+			}
+
+			// error is string
+			throw new Error(error as string);
+		}
+	},
+});
 
 export default EventPage;
