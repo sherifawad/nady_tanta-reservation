@@ -1,25 +1,32 @@
-import { getUser } from "@supabase/supabase-auth-helpers/nextjs";
-import { parse } from "cookie";
+import { supabaseServerClient } from "@supabase/supabase-auth-helpers/nextjs";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { getServiceSupabase } from "../../../lib/supabase";
+import { supabase } from "../../../lib/supabase";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
 	try {
-		// You have to use service supabase to bypass RLS
-		const supabase = getServiceSupabase();
 		const { error } = await supabase.auth.api.getUserByCookie(req, res);
 		if (error) throw Error("Could not get user");
 		const eventId = req.query.id;
 		const eventBody = req.body;
 		if (req.method === "DELETE") {
-			const response = await supabase.from("reservation").delete().match({ id: eventId });
+			const response = await supabaseServerClient({ req, res })
+				.from("reservation")
+				.delete()
+				.match({ id: eventId });
 			return res.json(response);
 		} else if (req.method === "PUT") {
-			const response = await supabase.from("reservation").update(eventBody).match({ id: eventId });
+			const response = await supabaseServerClient({ req, res })
+				.from("reservation")
+				.update(eventBody)
+				.match({ id: eventId });
 			return res.json(response);
 		} else if (req.method === "GET") {
-			const response = await supabase.from("reservation").select("*").match({ id: eventId }).single();
+			const response = await supabaseServerClient({ req, res })
+				.from("reservation")
+				.select("*")
+				.match({ id: eventId })
+				.single();
 			return res.json(response);
 		} else {
 			throw new Error(`The HTTP ${req.method} method is not supported at this route.`);
