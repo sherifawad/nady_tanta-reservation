@@ -7,8 +7,14 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"clean:all": "rimraf .next node_modules"
+		"clean:all": "rimraf .next node_modules",
+		"type-check": "tsc"
 	},
+	"pre-commit": [
+		"lint",
+		"type-check",
+        "build"
+	],
 	"dependencies": {
 		"@supabase/supabase-auth-helpers": "^1.4.2",
 		"@supabase/supabase-js": "^1.35.7",
@@ -32,6 +38,7 @@
 		"eslint-config-next": "12.3.1",
 		"netlify-cli": "^12.0.2",
 		"postcss": "^8.4.16",
+		"pre-commit": "^1.2.2",
 		"rimraf": "^3.0.2",
 		"tailwindcss": "^3.1.8",
 		"tailwindcss-logical": "^3.0.0",
