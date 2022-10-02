@@ -64,8 +64,8 @@ export interface FormCustomInputProps {
 export interface ServiceItemProps {
 	title: string;
 	subTitle: string;
-	ServiceValue: string;
-	selectedService: string;
+	ServiceValue: ServiceTypes | null;
+	selectedService: string | null;
 	cardClickHandler: any;
 }
 

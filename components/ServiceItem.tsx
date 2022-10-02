@@ -1,8 +1,6 @@
 import { useEffect, useId, useState } from "react";
 import { ServiceItemProps } from "../types";
 
-
-
 function ServiceItem({ title, subTitle, ServiceValue, selectedService, cardClickHandler }: ServiceItemProps) {
 	const id = useId();
 
@@ -10,7 +8,7 @@ function ServiceItem({ title, subTitle, ServiceValue, selectedService, cardClick
 	const [checked, setChecked] = useState(false);
 
 	useEffect(() => {
-		if (selectedService === ServiceValue) {
+		if (ServiceValue && selectedService === ServiceValue) {
 			setBackGroundColor("sm:bg-yellow-500");
 			setChecked(true);
 		} else {
@@ -28,7 +26,7 @@ function ServiceItem({ title, subTitle, ServiceValue, selectedService, cardClick
 				onChange={() => {}}
 				type="radio"
 				id={id}
-				value={ServiceValue}
+				value={ServiceValue || ""}
 				checked={checked}
 				className="accent-[#1499B4]"
 			/>

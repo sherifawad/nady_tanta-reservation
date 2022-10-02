@@ -4,7 +4,7 @@ import ServiceItem from "./ServiceItem";
 function ServiceItemsList({ formState, setFormState }: ServiceItemsListProps) {
 	const cardClickHandler = (serviceValue: string): void => {
 		setFormState((prev) => {
-			return { ...prev, serviceType: serviceValue };
+			return { ...prev, serviceType: serviceValue as ServiceTypes };
 		});
 	};
 	return (
