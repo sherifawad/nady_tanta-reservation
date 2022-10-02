@@ -1,13 +1,12 @@
 import { useUser } from "@supabase/supabase-auth-helpers/react";
 import axios from "axios";
-import { format, parse } from "date-fns";
-import { GetServerSideProps, GetStaticProps, NextPage } from "next";
+import { format } from "date-fns";
+import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { supabase } from "../lib/supabase";
-import { dataBaseData, HomePageProps, ServiceTypes } from "../types";
+import { useState } from "react";
+import { HomePageProps, ServiceTypes } from "../types";
 import { getURL } from "../utils/helpers";
 
 export async function loadEvents() {
@@ -129,7 +128,7 @@ const HomePage = ({ eventsList = [] }: HomePageProps) => {
 	);
 };
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
 	const data = (await loadEvents()) ?? [];
 	return {
 		props: { eventsList: data },
