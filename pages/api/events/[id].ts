@@ -2,10 +2,12 @@ import { getUser } from "@supabase/supabase-auth-helpers/nextjs";
 import { parse } from "cookie";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { supabase } from "../../../lib/supabase";
+import { getServiceSupabase } from "../../../lib/supabase";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
 	try {
+		// You have to use service supabase to bypass RLS
+		const supabase = getServiceSupabase();
 		const { error } = await supabase.auth.api.getUserByCookie(req, res);
 		if (error) throw Error("Could not get user");
 		const eventId = req.query.id;
