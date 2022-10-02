@@ -216,27 +216,27 @@ export const getServerSideProps: GetServerSideProps = withPageAuth({
 				if (error.response) {
 					// The request was made and the server responded with a status code
 					// that falls out of the range of 2xx
-					console.log(
-						"🚀 ~ file: [id].tsx ~ line 90 ~ constgetStaticProps:GetStaticProps= ~ error.response",
-						error.response.data
-					);
-					console.log(
-						"🚀 ~ file: ind[id]ex.tsx ~ line 94 ~ constgetStaticProps:GetStaticProps= ~ error.response",
-						error.response.status
-					);
-					console.log(
-						"🚀 ~ file: [id].tsx ~ line 98 ~ constgetStaticProps:GetStaticProps= ~ error.response",
-						error.response.headers
-					);
+					// console.log(
+					// 	"🚀 ~ file: [id].tsx ~ line 90 ~ constgetStaticProps:GetStaticProps= ~ error.response",
+					// 	error.response.data
+					// );
+					// console.log(
+					// 	"🚀 ~ file: ind[id]ex.tsx ~ line 94 ~ constgetStaticProps:GetStaticProps= ~ error.response",
+					// 	error.response.status
+					// );
+					// console.log(
+					// 	"🚀 ~ file: [id].tsx ~ line 98 ~ constgetStaticProps:GetStaticProps= ~ error.response",
+					// 	error.response.headers
+					// );
 				} else if (error.request) {
 					// The request was made but no response was received
 					// `error.request` is an instance of XMLHttpRequest in the
 					// browser and an instance of
 					// http.ClientRequest in node.js
-					console.log(
-						"🚀 ~ file: [id].tsx ~ line 107 ~ constgetStaticProps:GetStaticProps= ~ error.request",
-						error.request
-					);
+					// console.log(
+					// 	"🚀 ~ file: [id].tsx ~ line 107 ~ constgetStaticProps:GetStaticProps= ~ error.request",
+					// 	error.request
+					// );
 				}
 				throw error;
 			}

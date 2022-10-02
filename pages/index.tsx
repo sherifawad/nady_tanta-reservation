@@ -9,6 +9,21 @@ import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 import { dataBaseData, HomePageProps, ServiceTypes } from "../types";
 
+export async function loadEvents() {
+	try {
+		const { data: { data } = {} } = await axios({
+			method: "GET",
+			url: "http://localhost:3000/api/events",
+		});
+
+		return data;
+	} catch (error) {
+		console.log("🚀 ~ file: index.tsx ~ line 23 ~ loadEvents ~ error", error);
+	}
+
+	return null;
+}
+
 const HomePage = ({ eventsList = [] }: HomePageProps) => {
 	const Calendar = dynamic(() => import("react-calendar"), {
 		ssr: false,
@@ -114,55 +129,10 @@ const HomePage = ({ eventsList = [] }: HomePageProps) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-	try {
-		const {
-			data: { data },
-		} = await axios({
-			method: "GET",
-			url: "http://localhost:3000/api/events",
-		});
-
-		return {
-			props: { eventsList: data },
-		};
-	} catch (error) {
-		// check if the error was thrown from axios
-		if (axios.isAxiosError(error)) {
-			if (error.response) {
-				// The request was made and the server responded with a status code
-				// that falls out of the range of 2xx
-				console.log(
-					"🚀 ~ file: index.tsx ~ line 37 ~ constgetStaticProps:GetStaticProps= ~ error.response",
-					error.response.data
-				);
-				console.log(
-					"🚀 ~ file: index.tsx ~ line 38 ~ constgetStaticProps:GetStaticProps= ~ error.response",
-					error.response.status
-				);
-				console.log(
-					"🚀 ~ file: index.tsx ~ line 39 ~ constgetStaticProps:GetStaticProps= ~ error.response",
-					error.response.headers
-				);
-			} else if (error.request) {
-				// The request was made but no response was received
-				// `error.request` is an instance of XMLHttpRequest in the
-				// browser and an instance of
-				// http.ClientRequest in node.js
-				console.log(
-					"🚀 ~ file: index.tsx ~ line 45 ~ constgetStaticProps:GetStaticProps= ~ error.request",
-					error.request
-				);
-			}
-			throw error;
-		}
-		// check if instance of error not throw string but => throw new Error("")
-		if (error instanceof Error) {
-			throw error;
-		}
-
-		// error is string
-		throw new Error(error as string);
-	}
+	const data = (await loadEvents()) ?? [];
+	return {
+		props: { eventsList: data },
+	};
 };
 
 export default HomePage;
