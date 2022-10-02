@@ -93,7 +93,7 @@ const EventPage = ({ event }: EventPageProps) => {
 			if (formState?.clientDetails?.id) {
 				res = await axios({
 					method: "PUT",
-					url: `${getURL()}/api/events/${formState?.clientDetails?.id}`,
+					url: `/api/events/${formState?.clientDetails?.id}`,
 					data: {
 						event_status: formState.status,
 						service_type: formState.serviceType,
@@ -112,7 +112,7 @@ const EventPage = ({ event }: EventPageProps) => {
 			} else {
 				res = await axios({
 					method: "POST",
-					url: `${getURL()}/api/events/`,
+					url: `/api/events/`,
 					data: {
 						event_status: formState.status,
 						service_type: formState.serviceType,

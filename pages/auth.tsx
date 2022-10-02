@@ -17,7 +17,7 @@ const Auth: NextPage = () => {
 		try {
 			const { status, data } = await axios({
 				method: "POST",
-				url: `${getURL()}/api/signin/`,
+				url: `/api/signin/`,
 				data: {
 					email,
 				},
