@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { withPageAuth } from "@supabase/supabase-auth-helpers/nextjs";
 import axios, { AxiosResponse } from "axios";
-import { parse } from "date-fns";
 import type { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";

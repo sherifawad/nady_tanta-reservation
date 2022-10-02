@@ -3,6 +3,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
 import Spinner from "../components/Spinner";
+import { getURL } from "../utils/helpers";
 
 const Auth: NextPage = () => {
 	const [email, setEmail] = useState<string>();
@@ -16,7 +17,7 @@ const Auth: NextPage = () => {
 		try {
 			const { status, data } = await axios({
 				method: "POST",
-				url: `http://localhost:3000/api/signin/`,
+				url: `${getURL()}/api/signin/`,
 				data: {
 					email,
 				},
