@@ -33,10 +33,10 @@ const Auth: NextPage = () => {
 		} catch (error) {
 			if (error instanceof Error) {
 				alert(error.message);
+			} else {
+				// error is string
+				alert(error);
 			}
-
-			// error is string
-			alert(error);
 		}
 
 		setLoading(false);
