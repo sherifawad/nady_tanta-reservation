@@ -93,7 +93,6 @@ export enum ServiceTypes {
 export enum EventStatus {
 	WAITE = 0,
 	CONFIRMED = 1,
-	PROCESSING = 2,
-	FULFILLED = 3,
-	CANCELED = 4,
+	FULFILLED = 2,
+	CANCELED = 3,
 }

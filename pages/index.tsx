@@ -7,7 +7,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useState } from "react";
 import { HomePageProps, ServiceTypes } from "../types";
-import { getURL } from "../utils/helpers";
+import { getURL, statusConversion } from "../utils/helpers";
 
 export async function loadEvents() {
 	try {
@@ -108,7 +108,14 @@ const HomePage = ({ eventsList = [] }: HomePageProps) => {
 													? eventItem.service_time
 													: `${eventItem.service_time}:00 م`}
 											</div>
-											<div className="text-center">{`${eventItem.event_status}`}</div>
+											<div className="flex text-center justify-center items-center gap-2 ">
+												<div
+													className={`w-4 h-4 mbs-2 rounded-full ${
+														statusConversion(eventItem.event_status)?.color
+													}`}
+												></div>
+												<div>{statusConversion(eventItem.event_status)?.name}</div>
+											</div>
 										</div>
 									</a>
 								</Link>

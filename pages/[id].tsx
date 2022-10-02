@@ -150,12 +150,21 @@ const EventPage = ({ event }: EventPageProps) => {
 	};
 
 	const handleDetailsChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setFormState((prev) => {
-			return {
-				...prev,
-				clientDetails: { ...prev.clientDetails, [e.target.id]: e.target.value },
-			};
-		});
+		if (e?.target?.id === "status") {
+			setFormState((prev) => {
+				return {
+					...prev,
+					status: e.target.value as unknown as EventStatus,
+				};
+			});
+		} else {
+			setFormState((prev) => {
+				return {
+					...prev,
+					clientDetails: { ...prev.clientDetails, [e.target.id]: e.target.value },
+				};
+			});
+		}
 	};
 
 	return (
