@@ -1,8 +1,8 @@
-import { Dispatch, SetStateAction } from "react";
+import { ChangeEvent, Dispatch, MouseEvent, ReactNode, SetStateAction } from "react";
 
 export interface ReservationData {
 	clientDetails: {
-		id?: Number;
+		id?: number;
 		email: string | null;
 		name: string | null;
 		phone: string | null;
@@ -20,7 +20,7 @@ export interface ReservationData {
 }
 
 export interface dataBaseData {
-	id?: Number;
+	id?: number;
 	email: string | null;
 	name: string | null;
 	phone: string | null;
@@ -28,7 +28,7 @@ export interface dataBaseData {
 	service_type: string | null;
 	service_date: string | null;
 	service_time: string | null;
-	event_status: Number;
+	event_status: number;
 	recite_number: string | null;
 	recite_date: string | null;
 	member_ship_code: string | null;
@@ -37,13 +37,28 @@ export interface dataBaseData {
 	created_by: string | null;
 }
 
+export interface LayoutProps {
+	children: ReactNode;
+}
+
+export interface ModelProps {
+	children: ReactNode;
+	title: string;
+}
+
 export interface EventPageProps {
 	event?: dataBaseData;
 }
 
+export interface AddModelProps extends ModelProps {
+	isOpened: boolean;
+	onClose: (ev: MouseEvent<HTMLButtonElement>) => void;
+}
 export interface ClientDetailsProps {
 	formState: ReservationData;
-	handleDetailsChange: any;
+	handleDetailsChange: (
+		ev: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+	) => void;
 }
 
 export interface FormCustomInputProps {

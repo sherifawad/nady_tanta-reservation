@@ -8,14 +8,13 @@ import { ChangeEvent, useEffect, useState } from "react";
 import ClientDetails from "../components/ClientDetails";
 import ServiceItemsList from "../components/ServiceItemsList";
 import ServiceTime from "../components/ServiceTime";
-import Spinner from "../components/Spinner";
+import useLoading from "../hooks/useLoading";
 import { EventPageProps, EventStatus, ReservationData, ServiceTypes } from "../types";
 import { getURL } from "../utils/helpers";
 
 const EventPage = ({ event }: EventPageProps) => {
 	const router = useRouter();
-
-	const [loading, setLoading] = useState<Boolean>(false);
+	const { setLoading, LoadingModel } = useLoading();
 
 	const [formState, setFormState] = useState<ReservationData>({
 		clientDetails: {
@@ -136,32 +135,29 @@ const EventPage = ({ event }: EventPageProps) => {
 		} catch (error) {
 			if (error instanceof Error) {
 				alert(error.message);
+			} else {
+				// error is string
+				alert(error);
 			}
-
-			// error is string
-			alert(error);
 		}
-
 		setLoading(false);
 	};
 
-	const showSpinner = (loading: Boolean) => {
-		return loading && <Spinner />;
-	};
-
-	const handleDetailsChange = (e: ChangeEvent<HTMLInputElement>) => {
-		if (e?.target?.id === "status") {
+	const handleDetailsChange = (
+		ev: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+	) => {
+		if (ev?.target?.id === "status") {
 			setFormState((prev) => {
 				return {
 					...prev,
-					status: e.target.value as unknown as EventStatus,
+					status: ev.target.value as unknown as EventStatus,
 				};
 			});
 		} else {
 			setFormState((prev) => {
 				return {
 					...prev,
-					clientDetails: { ...prev.clientDetails, [e.target.id]: e.target.value },
+					clientDetails: { ...prev.clientDetails, [ev.target.id]: ev.target.value },
 				};
 			});
 		}
@@ -176,7 +172,7 @@ const EventPage = ({ event }: EventPageProps) => {
 			</Head>
 
 			<div>
-				{showSpinner(loading)}
+				<LoadingModel />
 				<img src="/headerImage.png" alt="mainImage" className="w-full" />
 				<div className="md:px-16 px-4 py-8">
 					<ServiceItemsList formState={formState} setFormState={setFormState} />

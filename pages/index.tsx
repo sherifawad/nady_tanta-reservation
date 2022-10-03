@@ -6,8 +6,12 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import Link from "next/link";
 import { useState } from "react";
+import useModel from "../hooks/useModel";
 import { HomePageProps, ServiceTypes } from "../types";
 import { getURL, statusConversion } from "../utils/helpers";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import useLoading from "../hooks/useLoading";
+import { useRouter } from "next/router";
 
 export async function loadEvents() {
 	try {
@@ -28,6 +32,13 @@ const HomePage = ({ eventsList = [] }: HomePageProps) => {
 	const Calendar = dynamic(() => import("react-calendar"), {
 		ssr: false,
 	});
+
+	const router = useRouter();
+
+	const { setLoading, LoadingModel } = useLoading();
+
+	const { Model, modelProps, setIsOpened } = useModel();
+	const [eventId, setEventId] = useState<number | undefined>(0);
 
 	const [events, _] = useState(eventsList);
 
@@ -70,6 +81,25 @@ const HomePage = ({ eventsList = [] }: HomePageProps) => {
 		}
 	};
 
+	const deleteEvent = async () => {
+		setLoading(true);
+		if (isNaN(Number(eventId))) return;
+		try {
+			const res = await axios({
+				method: "DELETE",
+				url: `/api/events/${eventId}`,
+			});
+		} catch (error) {
+			if (error instanceof Error) {
+				alert(error.message);
+			} else {
+				// error is string
+				alert(error);
+			}
+		}
+		router.reload();
+	};
+
 	return (
 		<div>
 			<Head>
@@ -78,6 +108,23 @@ const HomePage = ({ eventsList = [] }: HomePageProps) => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<div className="p-10 flex flex-col gap-4 justify-center items-center">
+				<LoadingModel />
+				<Model title="هل تريد ازالة تفاصيل الحجز نهائيا؟">
+					<div className="flex justify-evenly items-center">
+						<button
+							className="border-solid border-2 border-red-500 text-red-500 rounded-xl p-2"
+							onClick={() => deleteEvent()}
+						>
+							إزالة
+						</button>
+						<button
+							className="border-solid border-2 border-green-900 text-green-900 rounded-xl p-2"
+							onClick={modelProps.onClose}
+						>
+							إلغاء
+						</button>
+					</div>
+				</Model>
 				<Calendar
 					className="w-96 h-full rounded-xl shadow-xl "
 					tileClassName={({ date }) => setClass(date)}
@@ -89,36 +136,50 @@ const HomePage = ({ eventsList = [] }: HomePageProps) => {
 					{events?.map(
 						(eventItem, index) =>
 							eventItem.service_date && (
-								<Link href={`/${eventItem.id}`} key={index}>
-									<a
-										className={` ${
-											format(value, "yyyy-MM-dd") === eventItem.service_date
-												? ""
-												: "hidden"
-										}`}
-									>
+								<div
+									key={index}
+									className={`flex flex-col justify-center items-center ${
+										format(value, "yyyy-MM-dd") === eventItem.service_date ? "" : "hidden"
+									}`}
+								>
+									<Link href={`/${eventItem.id}`}>
+										<a>
+											<div
+												className={`grid grid-cols-1 divide-y text-white gap-2 rounded-lg shadow-xl border p-4 ${serviceTypeColor(
+													eventItem.service_type
+												)}`}
+											>
+												<div className="text-center">{eventItem.service_type}</div>
+												<div className="text-center">
+													{isNaN(Number(eventItem.service_time))
+														? eventItem.service_time
+														: `${eventItem.service_time}:00 م`}
+												</div>
+												<div className="flex text-center justify-center items-center gap-2 ">
+													<div
+														className={`w-4 h-4 mbs-2 rounded-full ${
+															statusConversion(eventItem.event_status)?.color
+														}`}
+													></div>
+													<div>
+														{statusConversion(eventItem.event_status)?.name}
+													</div>
+												</div>
+											</div>
+										</a>
+									</Link>
+									{accessToken && (
 										<div
-											className={`grid grid-cols-1 divide-y text-white gap-2 rounded-lg shadow-xl border p-4 ${serviceTypeColor(
-												eventItem.service_type
-											)}`}
+											className="text-red-500  rounded-full shadow-md cursor-pointer"
+											onClick={() => {
+												setEventId(eventItem.id);
+												setIsOpened(true);
+											}}
 										>
-											<div className="text-center">{eventItem.service_type}</div>
-											<div className="text-center">
-												{isNaN(Number(eventItem.service_time))
-													? eventItem.service_time
-													: `${eventItem.service_time}:00 م`}
-											</div>
-											<div className="flex text-center justify-center items-center gap-2 ">
-												<div
-													className={`w-4 h-4 mbs-2 rounded-full ${
-														statusConversion(eventItem.event_status)?.color
-													}`}
-												></div>
-												<div>{statusConversion(eventItem.event_status)?.name}</div>
-											</div>
+											<RiDeleteBin6Line />
 										</div>
-									</a>
-								</Link>
+									)}
+								</div>
 							)
 					)}
 				</div>
