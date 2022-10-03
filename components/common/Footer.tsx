@@ -2,7 +2,7 @@ const Footer = () => {
 	return (
 		<footer className="flex flex-grow justify-center items-center  bg-[#FBFBFD]">
 			<a
-				href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+				href="mailto:shereifawad@gmail.com?subject=Nady-Tanta-reservation Developer"
 				target="_blank"
 				rel="noopener noreferrer"
 			>

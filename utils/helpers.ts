@@ -12,13 +12,13 @@ export const statusConversion = (status: Number) => {
 	if (isNaN(Number(status))) return { name: "", color: "!bg-black" };
 	switch (status) {
 		case 0:
-			return { name: "منتظر تأكيد الحجز", color: "!bg-white" };
+			return { name: "منتظر تأكيد الحجز", color: "#FFFFFF" };
 		case 1:
-			return { name: "تم تأكيد الحجز", color: "!bg-yellow-500" };
+			return { name: "تم تأكيد الحجز", color: "#eab308" };
 		case 2:
-			return { name: "تم الحدث", color: "!bg-green-500" };
+			return { name: "تم الحدث", color: "#22c55e" };
 		case 3:
-			return { name: "تم الالغاء", color: "!bg-red-500" };
+			return { name: "تم الالغاء", color: "#ef4444" };
 
 		default:
 			return { name: "", color: "bg-black" };

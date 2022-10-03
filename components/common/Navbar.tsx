@@ -10,8 +10,9 @@ function Navbar() {
 	return (
 		<nav className="bg-ocean w-full flex justify-between items-center bg-blue-800">
 			<Link href="/">
-				<a className="py-2">
+				<a className="py-2 flex flex-col justify-center items-center">
 					<img src="/TantaLogo.png" className="mie-8" alt="logo" />
+					<p className="text-yellow-500 font-bold">موقع غير رسمي</p>
 				</a>
 			</Link>
 
