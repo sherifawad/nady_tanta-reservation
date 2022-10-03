@@ -1,17 +1,18 @@
-import { useUser } from "@supabase/supabase-auth-helpers/react";
+// import { useUser } from "@supabase/supabase-auth-helpers/react";
 import axios from "axios";
 import { format } from "date-fns";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Link from "next/link";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import useModel from "../hooks/useModel";
 import { HomePageProps, ServiceTypes } from "../types";
 import { getURL, statusConversion } from "../utils/helpers";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import useLoading from "../hooks/useLoading";
 import { useRouter } from "next/router";
+import { useUser } from "../components/common/CustomUserProvider";
 
 export async function loadEvents() {
 	try {
@@ -22,7 +23,7 @@ export async function loadEvents() {
 
 		return data;
 	} catch (error) {
-		console.log("🚀 ~ file: index.tsx ~ line 23 ~ loadEvents ~ error", error);
+		// console.log("🚀 ~ file: index.tsx ~ line 23 ~ loadEvents ~ error", error);
 	}
 
 	return null;
@@ -100,6 +101,33 @@ const HomePage = ({ eventsList = [] }: HomePageProps) => {
 		router.reload();
 	};
 
+	const eventItemLink = useMemo(() => {
+		return function eventItem({ eventItem }: any) {
+			const name = statusConversion(eventItem.event_status)?.name;
+			const backGroundColor = statusConversion(eventItem.event_status)?.color || "bg-white";
+			return (
+				<Link href={`/${eventItem.id}`}>
+					<a>
+						<div
+							className={` grid grid-cols-1 divide-y text-white gap-2 rounded-lg shadow-xl border p-4 ${serviceTypeColor(
+								eventItem.service_type
+							)}`}
+						>
+							<div className="text-center">{eventItem.service_type}</div>
+							<div className="text-center">{eventItem.service_time}</div>
+							<div className="flex text-center justify-center items-center gap-2 ">
+								<button className={` w-4 h-4 mbs-2 rounded-full ${backGroundColor}`}>
+									{" "}
+								</button>
+								<div>{name}</div>
+							</div>
+						</div>
+					</a>
+				</Link>
+			);
+		};
+	}, []);
+
 	return (
 		<div>
 			<Head>
@@ -142,32 +170,7 @@ const HomePage = ({ eventsList = [] }: HomePageProps) => {
 										format(value, "yyyy-MM-dd") === eventItem.service_date ? "" : "hidden"
 									}`}
 								>
-									<Link href={`/${eventItem.id}`}>
-										<a>
-											<div
-												className={` grid grid-cols-1 divide-y text-white gap-2 rounded-lg shadow-xl border p-4 ${serviceTypeColor(
-													eventItem.service_type
-												)}`}
-											>
-												<div className="text-center">{eventItem.service_type}</div>
-												<div className="text-center">
-													{isNaN(Number(eventItem.service_time))
-														? eventItem.service_time
-														: `${eventItem.service_time}:00 م`}
-												</div>
-												<div className="flex text-center justify-center items-center gap-2 ">
-													<div
-														className={`${
-															statusConversion(eventItem.event_status)?.color
-														} w-4 h-4 mbs-2 rounded-full `}
-													></div>
-													<div>
-														{statusConversion(eventItem.event_status)?.name}
-													</div>
-												</div>
-											</div>
-										</a>
-									</Link>
+									{eventItemLink({ eventItem })}
 									{accessToken && (
 										<div
 											className="text-red-500  rounded-full shadow-md cursor-pointer"
@@ -196,11 +199,17 @@ const HomePage = ({ eventsList = [] }: HomePageProps) => {
 	);
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
-	const data = (await loadEvents()) ?? [];
-	return {
-		props: { eventsList: data },
-	};
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+	try {
+		const data = (await loadEvents()) ?? [];
+		return {
+			props: { eventsList: data },
+		};
+	} catch (error) {
+		return {
+			props: {},
+		};
+	}
 };
 
 export default HomePage;

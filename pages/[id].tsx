@@ -195,7 +195,7 @@ const EventPage = ({ event }: EventPageProps) => {
 export const getServerSideProps: GetServerSideProps = withPageAuth({
 	// authRequired: false,
 	redirectTo: "/auth",
-	async getServerSideProps({ req, params }) {
+	async getServerSideProps({ req, res, params }) {
 		try {
 			if (!params || !params.id || params.id === "0") {
 				return {
@@ -209,7 +209,9 @@ export const getServerSideProps: GetServerSideProps = withPageAuth({
 			} = await axios({
 				method: "GET",
 				url: `${getURL()}/api/events/${id}`,
-				headers: req ? { cookie: req.headers.cookie ? req.headers.cookie : "" } : undefined,
+				headers: req.headers?.cookie
+					? { cookie: req.headers?.cookie ? req.headers.cookie : "" }
+					: undefined,
 			});
 
 			return {

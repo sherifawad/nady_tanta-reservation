@@ -18,12 +18,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 				redirectTo: getURL(),
 			});
 			if (error) {
-				console.log("🚀 ~ file: signin.ts ~ line 17 ~ handler ~ error", error);
+				// console.log("🚀 ~ file: signin.ts ~ line 17 ~ handler ~ error", error);
 				throw error;
 			}
 			return res.status(200).send({ status: 200, success: true, data });
 		} catch (error) {
-			console.log("🚀 ~ file: signin.ts ~ line 22 ~ handler ~ error", error);
+			// console.log("🚀 ~ file: signin.ts ~ line 22 ~ handler ~ error", error);
 			if (error instanceof Error) {
 				return res
 					.status(500)
@@ -34,6 +34,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 				.send({ status: 500, message: error as string, success: false, data: null });
 		}
 	} else {
-		throw new Error(`The HTTP ${req.method} method is not supported at this route.`);
+		return res
+			.status(500)
+			.send({
+				status: 500,
+				message: `The HTTP ${req.method} method is not supported at this route.`,
+				success: false,
+				data: null,
+			});
 	}
 }

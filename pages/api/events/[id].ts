@@ -5,8 +5,8 @@ import { supabase } from "../../../lib/supabase";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
 	try {
-		const { error } = await supabase.auth.api.getUserByCookie(req, res);
-		if (error) throw Error("Could not get user");
+		// const { error } = await supabase.auth.api.getUserByCookie(req, res);
+		// if (error) throw Error("Could not get user");
 		const eventId = req.query.id;
 		const eventBody = req.body;
 		if (req.method === "DELETE") {

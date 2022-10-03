@@ -99,7 +99,6 @@ function ClientDetails({ formState, handleDetailsChange }: ClientDetailsProps) {
 						<div className="px-4 py-2  bg-[#F5F6F7] shadow-lg rounded-lg">
 							<select
 								className="text-black text-sm bg-transparent outline-none w-full"
-								defaultValue="0"
 								onChange={handleDetailsChange}
 								id="status"
 								value={formState?.status as EventStatus}

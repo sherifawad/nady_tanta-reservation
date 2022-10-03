@@ -1,6 +1,6 @@
 import { format, parse } from "date-fns";
 import dynamic from "next/dynamic";
-import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ServiceTimeProps, ServiceTypes } from "../types";
 
 function ServiceTime({ formState, setFormState }: ServiceTimeProps) {
@@ -8,7 +8,21 @@ function ServiceTime({ formState, setFormState }: ServiceTimeProps) {
 		ssr: false,
 	});
 
-	const hours = [4, 5, 6, 7, 8, 9, 10, 11, 12];
+	const hours = [
+		"10:00ص",
+		"11:00ص",
+		"12:00م",
+		"1:00م",
+		"2:00م",
+		"3:00م",
+		"4:00م",
+		"5:00م",
+		"6:00م",
+		"7:00م",
+		"8:00م",
+		"9:00م",
+		"10:00م",
+	];
 	const PrayerDate = ["بعد العصر", " بعد المغرب", " بعد العشاء"];
 
 	const [showPrayers, setShowPrayers] = useState(false);
@@ -61,18 +75,18 @@ function ServiceTime({ formState, setFormState }: ServiceTimeProps) {
 						))}
 					</div>
 
-					<div className={`grid grid-cols-3 gap-4 m-auto ${showPrayers ? "hidden" : ""}`}>
+					<div className={`grid grid-cols-4 gap-4 m-auto ${showPrayers ? "hidden" : ""}`}>
 						{hours.map((h, index) => (
 							<button
-								onClick={(e) => timeChange(h.toString())}
+								onClick={(e) => timeChange(h)}
 								key={`h${index}`}
 								className={`rounded-xl p-2 shadow-lg cursor-pointer self-center ${
-									formState.serviceTime === h.toString()
+									formState.serviceTime === h
 										? "bg-yellow-500 text-white"
 										: "bg-white text-blue-500"
 								}`}
 							>
-								<span className="whitespace-nowrap">{`${h}:00 م`}</span>
+								<span className="whitespace-nowrap">{h}</span>
 							</button>
 						))}
 					</div>

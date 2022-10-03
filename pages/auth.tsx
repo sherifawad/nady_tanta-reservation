@@ -22,7 +22,7 @@ const Auth: NextPage = () => {
 					email,
 				},
 			});
-			console.log("🚀 ~ file: auth.tsx ~ line 21 ~ handleSubmit ~ data", data);
+			// console.log("🚀 ~ file: auth.tsx ~ line 21 ~ handleSubmit ~ data", data);
 			if (status === 200) {
 				setLoading(false);
 

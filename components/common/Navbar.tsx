@@ -1,15 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 
-import { useUser } from "@supabase/supabase-auth-helpers/react";
-import axios from "axios";
+// import { useUser } from "@supabase/supabase-auth-helpers/react";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useUser } from "./CustomUserProvider";
 
 function Navbar() {
 	const { accessToken } = useUser();
 
 	return (
-		<div className="bg-ocean w-full flex justify-between items-center bg-blue-800">
+		<nav className="bg-ocean w-full flex justify-between items-center bg-blue-800">
 			<Link href="/">
 				<a className="py-2">
 					<img src="/TantaLogo.png" className="mie-8" alt="logo" />
@@ -29,7 +28,7 @@ function Navbar() {
 					</a>
 				</Link>
 			)}
-		</div>
+		</nav>
 	);
 }
 
