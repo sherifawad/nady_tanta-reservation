@@ -1,4 +1,5 @@
 import { ClientDetailsProps, EventStatus } from "../types";
+import { statusConversion } from "../utils/helpers";
 import FormCustomInput from "./FormCustomInput";
 
 function ClientDetails({ formState, handleDetailsChange }: ClientDetailsProps) {
